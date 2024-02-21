@@ -33,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void fetchRTVEData() async {
-    var url = Uri.parse('https://api.rtve.es/');
+    var url = Uri.parse('https://raw.githubusercontent.com/oriolgds/Spanish-News-Api/main/news.json');
 
     try {
       var response = await http.get(url);
