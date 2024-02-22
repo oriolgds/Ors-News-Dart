@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/onews_dart.iml" filepath="$PROJECT_DIR$/.idea/onews_dart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/onews_dart_android.iml" filepath="$PROJECT_DIR$/android/onews_dart_android.iml" />
     </modules>
   </component>
 </project>
