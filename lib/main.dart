@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -32,21 +31,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void fetchRTVEData() async {
-    var url = Uri.parse('https://raw.githubusercontent.com/oriolgds/Spanish-News-Api/main/news.json');
-
-    try {
-      var response = await http.get(url);
-      if (response.statusCode == 200) {
-        print('Response body: ${response.body}');
-        // Handle the response data here
-      } else {
-        print('Request failed with status: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Failed to make request: $e');
-    }
-  }
+  void fetchRTVEData() async {}
   @override
   void initState() {
     fetchRTVEData();
