@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +31,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void fetchRTVEData() async {}
+  void fetchRTVEData() async {
+
+    final content = (await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/')));
+    final json = jsonDecode(content);
+  }
   @override
   void initState() {
     fetchRTVEData();
@@ -43,12 +47,15 @@ class _MyHomePageState extends State<MyHomePage> {
       theme: ThemeData(
 
       ),
-      home: const Scaffold(
+      home: Scaffold(
         body: SingleChildScrollView(
           child: Column(
             children: [
-              TopLabel(),
-              NewCard()
+              const TopLabel(),
+              const NewCard(),
+              TextButton(onPressed: (){
+                fetchRTVEData();
+              }, child: const Text('Fetch data'))
             ],
           ),
         ),
