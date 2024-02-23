@@ -54,13 +54,16 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             const TopLabel(),
             Expanded(
-              child: ListView.builder(
+              child: ListView.separated(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: news.length,
                 itemBuilder: (context, index){
                   final inew = news[index];
                   return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'],);
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Divider();
                 },
 
               ),
