@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'],);
                 },
                 separatorBuilder: (BuildContext context, int index) {
-                  return const Divider();
+                  return const Divider(height: 5,);
                 },
 
               ),
