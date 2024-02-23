@@ -59,9 +59,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 shrinkWrap: true,
                 itemCount: news.length,
                 itemBuilder: (context, index){
-                  final New = news[index];
-                  return NewCard(title: New['Title'], image: New['Image'], description: New['Summary'],);
-                }
+                  final inew = news[index];
+                  return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'],);
+                },
+
               ),
             ),
             TextButton(onPressed: (){
@@ -117,7 +118,7 @@ class NewCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: Image.network(
-                    'https://media.traveler.es/photos/63838947050e0f92cd80c982/16:9/w_2560%2Cc_limit/GettyImages-1392907424.jpg',
+                    image,
                     fit: BoxFit.cover,
                   ),
                 ),
