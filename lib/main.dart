@@ -31,10 +31,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void fetchRTVEData() async {
+  List<dynamic> news = [];
+  Future<void> fetchRTVEData() async {
 
     final content = (await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/')));
     final json = jsonDecode(content);
+    setState(() {
+      news = json['news'];
+    });
   }
   @override
   void initState() {
@@ -44,20 +48,26 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-
-      ),
+      theme: ThemeData(),
       home: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const TopLabel(),
-              const NewCard(),
-              TextButton(onPressed: (){
-                fetchRTVEData();
-              }, child: const Text('Fetch data'))
-            ],
-          ),
+        body: Column(
+          children: [
+            const TopLabel(),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: news.length,
+                itemBuilder: (context, index){
+                  final New = news[index];
+                  return NewCard(title: New['Title'], image: New['Image'], description: New['Summary'],);
+                }
+              ),
+            ),
+            TextButton(onPressed: (){
+              fetchRTVEData();
+            }, child: const Text('Fetch data'))
+          ],
         ),
       ),
     );
@@ -89,41 +99,40 @@ class TopLabel extends StatelessWidget {
 }
 
 class NewCard extends StatelessWidget {
-  const NewCard({super.key});
+  const NewCard({super.key, required this.image, required this.title, required this.description});
+  final String image;
+  final String title;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        InkWell(
-          borderRadius: BorderRadius.circular(0),
-          onTap: (){
-
-          },
-          child: SizedBox(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    child: Image.network(
-                      'https://media.traveler.es/photos/63838947050e0f92cd80c982/16:9/w_2560%2Cc_limit/GettyImages-1392907424.jpg',
-                      fit: BoxFit.cover,
-                      ),
+    return InkWell(
+        borderRadius: BorderRadius.circular(0),
+        onTap: () {},
+        child: SizedBox(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  child: Image.network(
+                    'https://media.traveler.es/photos/63838947050e0f92cd80c982/16:9/w_2560%2Cc_limit/GettyImages-1392907424.jpg',
+                    fit: BoxFit.cover,
                   ),
-                  // Titular
-                  const Text('Barcelona se convierte en la ciudad más visitada', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
-                  // Pequeño resumen
-                  const Text('Barcelona este año se ha visitado un 6% más y esto la coloca en el ranking de las 10 ciudades más visitadas')
-                ],
-              ),
+                ),
+                // Titular
+                Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                // Pequeño resumen
+                Text(description)
+              ],
             ),
-          )
-        ),
-        const Divider(height: 3.0,)
-      ],
-    );
+          ),
+        ));
   }
 }
 
