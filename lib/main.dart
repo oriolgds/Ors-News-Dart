@@ -68,9 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
               ),
             ),
-            TextButton(onPressed: (){
-              fetchRTVEData();
-            }, child: const Text('Fetch data'))
           ],
         ),
       ),
