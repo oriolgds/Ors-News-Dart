@@ -52,6 +52,15 @@ jobs:
         with:
           name: OrsNews.aab
           path: build/app/outputs/bundle/release/app-release.aab
+      
+      - name: Upload all build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Builds linux
+          path: build/
+  
+  
+  
   
   build-on-windows:
     runs-on: windows-latest
@@ -60,8 +69,18 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: flutter build windows
+      - name: Build for windows
+        run: flutter build windows
+      - name: Upload windows
+        uses: actions/upload-artifact@v4        
+        with:
+          name: Builds Windows
+          path: build/
 
+  
+  
+  
+  
   build-on-mac:
    runs-on: macos-latest
    steps:
@@ -70,4 +89,9 @@ jobs:
        with:
          channel: 'stable'
      - run: flutter build macos
+     - name: Upload MacOS
+       uses: actions/upload-artifact@v4
+       with:
+          name: Builds MacOS
+          path: build/
 
