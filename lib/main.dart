@@ -55,11 +55,15 @@ class _MyHomePageState extends State<MyHomePage> {
             const TopLabel(),
             Expanded(
               child: ListView.separated(
+                cacheExtent: 200,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: news.length,
+                itemCount: news.length + 1,
                 itemBuilder: (context, index){
-                  final inew = news[index];
+                  if (index == 0) {
+                    return const TopListView();
+                  }
+                  final inew = news[index - 1];
                   return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'],);
                 },
                 separatorBuilder: (BuildContext context, int index) {
@@ -74,6 +78,36 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+class TopListView extends StatefulWidget {
+  const TopListView({super.key});
+
+  @override
+  State<TopListView> createState() => _TopListViewState();
+}
+
+class _TopListViewState extends State<TopListView> {
+  String date = '...';
+  Future<void> fetchDateData() async {
+    String apiDate = await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/date.txt'));
+    setState(() {
+      date = apiDate;
+    });
+  }
+  @override
+  void initState() {
+    fetchDateData();
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text('Noticias actualizadas el: $date'),
+      ],
+    );
+  }
+}
+
 
 class TopLabel extends StatelessWidget {
   const TopLabel({super.key});
