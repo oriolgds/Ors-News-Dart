@@ -22,7 +22,7 @@ jobs:
         with:
           channel: 'stable'
       - name: Displaying flutter version
-        run: flutter version
+        run: flutter --version
         
       - name: Running pub get
         run: flutter pub get
