@@ -1,16 +1,10 @@
-# onews_dart
+# Ors News
+¿Quieres consultar las noticias de España de una forma rápida y facil?
 
-A new Flutter project.
+## Empezando
+Ors News es multiplataforma por lo tanto esta disponible para Linux, Windows, Android y iOS
+### ¿Cómo descargar el proyecto?
+En "releases" podras encontrar el archivo correspondiente para cada sistema operativo
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Importante
+Este proyecto es de **codigo abierto** por lo tanto puedes contribuir y hasta compilar tu el codigo si lo prefieres.
