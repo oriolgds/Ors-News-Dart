@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -33,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<dynamic> news = [];
   String date = '...';
+  bool viewingCachedNews = true;
   Future<void> fetchDateData() async {
     String apiDate = await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/date.txt'));
     setState(() {
@@ -40,12 +41,21 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
   Future<void> fetchApiData() async {
-
+    // Get cached news
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? cachedNews = prefs.getString('newsJSON');
+    if (cachedNews!= null) {
+      setState(() {
+        news = jsonDecode(cachedNews)['news'];
+      });
+    }
     final content = (await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/')));
     final json = jsonDecode(content);
     setState(() {
       news = json['news'];
+      viewingCachedNews = false;
     });
+    prefs.setString('newsJSON', jsonEncode(json));
   }
   @override
   void initState() {
@@ -69,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: news.length + 1,
                 itemBuilder: (context, index){
                   if (index == 0) {
-                    return TopListView(date: date,);
+                    return TopListView(date: date, viewingChachedNews: viewingCachedNews,);
                   }
                   final inew = news[index - 1];
                   return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'],);
@@ -87,8 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 class TopListView extends StatefulWidget {
-  const TopListView({super.key, required this.date});
+  const TopListView({super.key, required this.date, required this.viewingChachedNews});
   final String date;
+  final bool viewingChachedNews;
   @override
   State<TopListView> createState() => _TopListViewState();
 }
@@ -100,8 +111,9 @@ class _TopListViewState extends State<TopListView> {
   }
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
+        Text((widget.viewingChachedNews)?'Viendo noticias cacheadas':'Viendo noticias de la red'),
         Text('Noticias actualizadas el: ${widget.date}'),
       ],
     );
