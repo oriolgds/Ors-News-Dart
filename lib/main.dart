@@ -32,7 +32,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<dynamic> news = [];
-  Future<void> fetchRTVEData() async {
+  String date = '...';
+  Future<void> fetchDateData() async {
+    String apiDate = await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/date.txt'));
+    setState(() {
+      date = apiDate;
+    });
+  }
+  Future<void> fetchApiData() async {
 
     final content = (await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/')));
     final json = jsonDecode(content);
@@ -42,7 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   void initState() {
-    fetchRTVEData();
+    fetchApiData();
+    fetchDateData();
     super.initState();
   }
   @override
@@ -61,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: news.length + 1,
                 itemBuilder: (context, index){
                   if (index == 0) {
-                    return const TopListView();
+                    return TopListView(date: date,);
                   }
                   final inew = news[index - 1];
                   return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'],);
@@ -79,30 +87,22 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 class TopListView extends StatefulWidget {
-  const TopListView({super.key});
-
+  const TopListView({super.key, required this.date});
+  final String date;
   @override
   State<TopListView> createState() => _TopListViewState();
 }
 
 class _TopListViewState extends State<TopListView> {
-  String date = '...';
-  Future<void> fetchDateData() async {
-    String apiDate = await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/date.txt'));
-    setState(() {
-      date = apiDate;
-    });
-  }
   @override
   void initState() {
-    fetchDateData();
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text('Noticias actualizadas el: $date'),
+        Text('Noticias actualizadas el: ${widget.date}'),
       ],
     );
   }
