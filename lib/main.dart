@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: news.length,
                 itemBuilder: (context, index){
                   final inew = news[index];
-                  return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'],);
+                  return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'],);
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return const Divider(height: 5,);
@@ -100,10 +100,11 @@ class TopLabel extends StatelessWidget {
 }
 
 class NewCard extends StatelessWidget {
-  const NewCard({super.key, required this.image, required this.title, required this.description});
+  const NewCard({super.key, required this.image, required this.title, required this.description, required this.source});
   final String image;
   final String title;
   final String description;
+  final String source;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +116,7 @@ class NewCard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
+                Text(source),
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: Image.network(
@@ -129,7 +131,7 @@ class NewCard extends StatelessWidget {
                       fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 // Pequeño resumen
-                Text(description)
+                Text(description.length > 300 ? '${description.substring(0, 300)}...' : description)
               ],
             ),
           ),
