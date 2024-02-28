@@ -35,6 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
   String date = '...';
   bool viewingCachedNews = true;
   Future<void> fetchDateData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? cachedDate = prefs.getString('newsDate');
+    if(cachedDate!= null){
+      setState(() {
+        date = cachedDate;
+      });
+    }
     String apiDate = await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/date.txt'));
     setState(() {
       date = apiDate;
@@ -56,11 +63,11 @@ class _MyHomePageState extends State<MyHomePage> {
       viewingCachedNews = false;
     });
     prefs.setString('newsJSON', jsonEncode(json));
+    fetchDateData();
   }
   @override
   void initState() {
     fetchApiData();
-    fetchDateData();
     super.initState();
   }
   @override
