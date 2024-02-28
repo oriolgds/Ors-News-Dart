@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -93,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       return TopListView(date: date, viewingChachedNews: viewingCachedNews,);
                     }
                     final inew = news[index - 1];
-                    return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'],);
+                    return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'], url: inew['Url'],);
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return const Divider(height: 5,);
@@ -167,17 +168,21 @@ class TopLabel extends StatelessWidget {
 }
 
 class NewCard extends StatelessWidget {
-  const NewCard({super.key, required this.image, required this.title, required this.description, required this.source});
+  const NewCard({super.key, required this.image, required this.title, required this.description, required this.source, required this.url});
   final String image;
   final String title;
   final String description;
   final String source;
+  final String url;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
         borderRadius: BorderRadius.circular(0),
-        onTap: () {},
+        onTap: () async {
+          final Uri url2 = Uri.parse(url);
+          await launchUrl(url2);
+        },
         child: SizedBox(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
