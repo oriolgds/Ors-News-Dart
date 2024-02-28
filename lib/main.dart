@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final ScrollController _scrollController = ScrollController();
   List<dynamic> news = [];
   String date = '...';
   bool viewingCachedNews = true;
@@ -79,22 +81,34 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             const TopLabel(),
             Expanded(
-              child: ListView.separated(
-                cacheExtent: 200,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: news.length + 1,
-                itemBuilder: (context, index){
-                  if (index == 0) {
-                    return TopListView(date: date, viewingChachedNews: viewingCachedNews,);
-                  }
-                  final inew = news[index - 1];
-                  return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'],);
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(height: 5,);
-                },
+              child: NotificationListener(
+                child: ListView.separated(
+                  controller: _scrollController,
+                  cacheExtent: 200,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: news.length + 1,
+                  itemBuilder: (context, index){
+                    if (index == 0) {
+                      return TopListView(date: date, viewingChachedNews: viewingCachedNews,);
+                    }
+                    final inew = news[index - 1];
+                    return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'],);
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Divider(height: 5,);
+                  },
+                
+                ),
+                onNotification: (t){
+                  print(_scrollController.position.pixels);
+                  if (t is ScrollEndNotification) {
+                    if (kDebugMode) {
 
+                    }
+                  }
+                  return true;
+                },
               ),
             ),
           ],
