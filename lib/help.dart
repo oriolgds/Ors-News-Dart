@@ -26,16 +26,35 @@ class _HelpStackState extends State<HelpStack> {
   }
 }
 
-class HelpItem extends StatelessWidget {
+class HelpItem extends StatefulWidget {
   const HelpItem({super.key, required this.text, required this.iconData});
   final String text;
   final IconData iconData;
+
+  @override
+  State<HelpItem> createState() => _HelpItemState();
+}
+
+class _HelpItemState extends State<HelpItem> {
+  @override
+  void initState() {
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        Icon(iconData, size: 200, color: Colors.white70,),
-        Text(text, style: const TextStyle(color: Colors.white, fontSize: 18.0),)
+        AnimatedPositioned(
+          duration: const Duration(seconds: 1),
+
+          child: Column(
+            children: [
+              Icon(widget.iconData, size: 200, color: Colors.white70,),
+              Text(widget.text, style: const TextStyle(color: Colors.white, fontSize: 18.0),)
+            ],
+          )
+        ),
       ],
     );
   }
