@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+
+// Other pages
+import 'help.dart';
+
+
 void main() {
   runApp(const MyApp());
 }
@@ -189,11 +195,14 @@ class NewCard extends StatelessWidget {
             child: Column(
               children: [
                 Text(source),
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  child: Image.network(
-                    image,
-                    fit: BoxFit.cover,
+                SizedBox(
+                  height: 200,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    child: Image.network(
+                      image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 // Titular
