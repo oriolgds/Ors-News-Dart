@@ -43,6 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
   List<dynamic> news = [];
   String date = '...';
   bool viewingCachedNews = true;
+
+  // Help variables
+  Widget helpWidget = const SizedBox.shrink();
   Future<void> fetchDateData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? cachedDate = prefs.getString('newsDate');
@@ -74,6 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
     prefs.setString('newsJSON', jsonEncode(json));
     fetchDateData();
   }
+  Future<void> showHelp() async {
+
+  }
   @override
   void initState() {
     fetchApiData();
@@ -86,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
       home: Scaffold(
         body: Stack(
           children: [
-
             Column(
               children: [
                 const TopLabel(),
