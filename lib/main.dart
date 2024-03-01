@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -191,7 +192,7 @@ class TopLabel extends StatelessWidget {
   }
 }
 
-class NewCard extends StatelessWidget {
+class NewCard extends StatefulWidget {
   const NewCard({super.key, required this.image, required this.title, required this.description, required this.source, required this.url});
   final String image;
   final String title;
@@ -200,37 +201,51 @@ class NewCard extends StatelessWidget {
   final String url;
 
   @override
+  State<NewCard> createState() => _NewCardState();
+}
+
+class _NewCardState extends State<NewCard> {
+  bool opened = false;
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
         borderRadius: BorderRadius.circular(0),
         onTap: () async {
-          final Uri url2 = Uri.parse(url);
+          if(opened){
+            return;
+          }
+          opened = true;
+          final Uri url2 = Uri.parse(widget.url);
           await launchUrl(url2);
+          Timer(const Duration(milliseconds: 500), () {
+            opened = false;
+          });
         },
         child: SizedBox(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Text(source),
+                Text(widget.source),
                 SizedBox(
                   height: 200,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(12)),
                     child: Image.network(
-                      image,
+                      widget.image,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
                 // Titular
                 Text(
-                  title,
+                  widget.title,
                   style: const TextStyle(
                       fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 // Pequeño resumen
-                Text(description.length > 300 ? '${description.substring(0, 300)}...' : description)
+                Text(widget.description.length > 300 ? '${widget.description.substring(0, 300)}...' : widget.description)
               ],
             ),
           ),
