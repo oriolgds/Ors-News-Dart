@@ -13,7 +13,7 @@ class _HelpStackState extends State<HelpStack> {
   bool ignorePointer = false;
   double allOpacity = 1.0;
   List<Widget> cards = [];
-  final List<Map<String, dynamic>> Help_items = [
+  final List<Map<String, dynamic>> helpItems = [
     {
       'text': 'Clica en la noticia para ir a la web',
       'icon': Icons.touch_app_outlined
@@ -29,15 +29,15 @@ class _HelpStackState extends State<HelpStack> {
   ];
   @override
   void initState() {
-    for (int i = 0; i < Help_items.length; i++) {
+    for (int i = 0; i < helpItems.length; i++) {
       Timer(Duration(seconds: 5 * (i + 1)), () {
         setState(() {
           cards.add(
-            HelpItem(text: Help_items[i]['text'], iconData: Help_items[i]['icon'],),
+            HelpItem(text: helpItems[i]['text'], iconData: helpItems[i]['icon'],),
           );
         });
       });
-      Timer(Duration(seconds: (Help_items.length + 1) * 5), () {
+      Timer(Duration(seconds: (helpItems.length + 1) * 5), () {
         setState(() {
           allOpacity = 0.0;
           ignorePointer = true;
@@ -119,7 +119,14 @@ class _HelpItemState extends State<HelpItem> {
                 children: [
                   const Expanded(child: SizedBox.shrink(),),
                   Icon(widget.iconData, size: 200, color: Colors.white70,),
-                  Text(widget.text, style: const TextStyle(color: Colors.white, fontSize: 18.0),),
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      widget.text,
+                      style: const TextStyle(color: Colors.white, fontSize: 18.0),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   const Expanded(child: SizedBox.shrink(),),
                 ],
               ),
