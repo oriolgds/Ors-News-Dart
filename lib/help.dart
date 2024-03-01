@@ -10,8 +10,10 @@ class HelpStack extends StatefulWidget {
 }
 
 class _HelpStackState extends State<HelpStack> {
+  bool ignorePointer = false;
+  double allOpacity = 1.0;
   List<Widget> cards = [];
-  List<Map<String, dynamic>> items = [
+  final List<Map<String, dynamic>> Help_items = [
     {
       'text': 'Clica en la noticia para ir a la web',
       'icon': Icons.touch_app_outlined
@@ -27,12 +29,18 @@ class _HelpStackState extends State<HelpStack> {
   ];
   @override
   void initState() {
-    for (int i = 0; i < items.length; i++) {
+    for (int i = 0; i < Help_items.length; i++) {
       Timer(Duration(seconds: 5 * (i + 1)), () {
         setState(() {
           cards.add(
-            HelpItem(text: items[i]['text'], iconData: items[i]['icon'],),
+            HelpItem(text: Help_items[i]['text'], iconData: Help_items[i]['icon'],),
           );
+        });
+      });
+      Timer(Duration(seconds: (Help_items.length + 1) * 5), () {
+        setState(() {
+          allOpacity = 0.0;
+          ignorePointer = true;
         });
       });
     }
@@ -40,15 +48,22 @@ class _HelpStackState extends State<HelpStack> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.black.withAlpha(230),
-      ),
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Stack(
-        alignment: Alignment.center,
-        children: cards,
+    return IgnorePointer(
+      ignoring: ignorePointer,
+      child: AnimatedOpacity(
+        opacity: allOpacity,
+        duration: const Duration(seconds: 1),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.black.withAlpha(230),
+          ),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            alignment: Alignment.center,
+            children: cards,
+          ),
+        ),
       ),
     );
   }
