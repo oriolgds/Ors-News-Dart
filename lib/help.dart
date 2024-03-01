@@ -119,7 +119,14 @@ class _HelpItemState extends State<HelpItem> {
                 children: [
                   const Expanded(child: SizedBox.shrink(),),
                   Icon(widget.iconData, size: 200, color: Colors.white70,),
-                  Text(widget.text, style: const TextStyle(color: Colors.white, fontSize: 18.0),),
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      widget.text,
+                      style: const TextStyle(color: Colors.white, fontSize: 18.0),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   const Expanded(child: SizedBox.shrink(),),
                 ],
               ),
