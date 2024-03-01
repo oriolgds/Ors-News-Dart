@@ -84,40 +84,46 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       theme: ThemeData(),
       home: Scaffold(
-        body: Column(
+        body: Stack(
           children: [
-            const TopLabel(),
-            Expanded(
-              child: NotificationListener(
-                child: ListView.separated(
-                  controller: _scrollController,
-                  cacheExtent: 200,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: news.length + 1,
-                  itemBuilder: (context, index){
-                    if (index == 0) {
-                      return TopListView(date: date, viewingChachedNews: viewingCachedNews,);
-                    }
-                    final inew = news[index - 1];
-                    return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'], url: inew['Url'],);
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const Divider(height: 5,);
-                  },
-                
-                ),
-                onNotification: (t){
-                  print(_scrollController.position.pixels);
-                  if (t is ScrollEndNotification) {
-                    if (kDebugMode) {
 
-                    }
-                  }
-                  return true;
-                },
-              ),
+            Column(
+              children: [
+                const TopLabel(),
+                Expanded(
+                  child: NotificationListener(
+                    child: ListView.separated(
+                      controller: _scrollController,
+                      cacheExtent: 200,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: news.length + 1,
+                      itemBuilder: (context, index){
+                        if (index == 0) {
+                          return TopListView(date: date, viewingChachedNews: viewingCachedNews,);
+                        }
+                        final inew = news[index - 1];
+                        return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'], url: inew['Url'],);
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(height: 5,);
+                      },
+
+                    ),
+                    onNotification: (t){
+                      print(_scrollController.position.pixels);
+                      if (t is ScrollEndNotification) {
+                        if (kDebugMode) {
+
+                        }
+                      }
+                      return true;
+                    },
+                  ),
+                ),
+              ],
             ),
+            const HelpStack(),
           ],
         ),
       ),
