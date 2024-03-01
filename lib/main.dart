@@ -78,10 +78,17 @@ class _MyHomePageState extends State<MyHomePage> {
     fetchDateData();
   }
   Future<void> showHelp() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? helpShown = prefs.getBool('helpShown');
+    if(helpShown== null || helpShown == false) {
+      await prefs.setBool('helpShown', true);
+      helpWidget = const HelpStack();
+    }
 
   }
   @override
   void initState() {
+    showHelp();
     fetchApiData();
     super.initState();
   }
@@ -128,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            const HelpStack(),
+            helpWidget
           ],
         ),
       ),
