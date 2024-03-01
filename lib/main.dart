@@ -204,6 +204,7 @@ class NewCard extends StatefulWidget {
   State<NewCard> createState() => _NewCardState();
 }
 
+
 class _NewCardState extends State<NewCard> {
   bool opened = false;
 
