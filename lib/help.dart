@@ -19,11 +19,11 @@ class _HelpStackState extends State<HelpStack> {
       'icon': Icons.touch_app_outlined
     },
     {
-      'text': 'Doble click',
+      'text': 'Doble click para ampliar el resumen',
       'icon': Icons.touch_app
     },
     {
-      'text': 'Triple click',
+      'text': 'Manten pulsado para compartir',
       'icon': Icons.touch_app
     },
   ];
