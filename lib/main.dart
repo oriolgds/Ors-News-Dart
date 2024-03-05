@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 
 // Other pages
@@ -230,6 +231,9 @@ class _NewCardState extends State<NewCard> {
             doubleClicked = !doubleClicked;
           });
 
+        },
+        onLongPress: (){
+          Share.share('Mira esta noticia que he encontrado en Ors News ${widget.url}', subject: widget.title);
         },
         child: SizedBox(
           child: Padding(
