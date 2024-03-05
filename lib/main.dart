@@ -206,7 +206,9 @@ class NewCard extends StatefulWidget {
 
 
 class _NewCardState extends State<NewCard> {
+  final int descriptionCharLimit = 100;
   bool opened = false;
+  bool doubleClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -223,30 +225,51 @@ class _NewCardState extends State<NewCard> {
             opened = false;
           });
         },
+        onDoubleTap: (){
+          setState(() {
+            doubleClicked = !doubleClicked;
+          });
+
+        },
         child: SizedBox(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.source),
-                SizedBox(
-                  height: 200,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    child: Image.network(
-                      widget.image,
-                      fit: BoxFit.cover,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(widget.source, textAlign: TextAlign.center,),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 200,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                        child: Image.network(
+                          widget.image,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 // Titular
                 Text(
                   widget.title,
                   style: const TextStyle(
-                      fontSize: 28, fontWeight: FontWeight.bold),
+                      fontSize: 28, fontWeight: FontWeight.bold
+                  ),
                 ),
                 // Pequeño resumen
-                Text(widget.description.length > 300 ? '${widget.description.substring(0, 300)}...' : widget.description)
+                Text(widget.description.length > descriptionCharLimit && !doubleClicked ? '${widget.description.substring(0, descriptionCharLimit)}...' : widget.description),
+                widget.description.length > descriptionCharLimit && !doubleClicked ? Text('Doble click para leer más', style: TextStyle(color: Colors.black.withAlpha(150)), textAlign: TextAlign.start,): const SizedBox.shrink(),
               ],
             ),
           ),
