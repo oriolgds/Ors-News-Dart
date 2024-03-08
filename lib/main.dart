@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,7 +40,10 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+
+
 class _MyHomePageState extends State<MyHomePage> {
+  double listViewScroll = 0;
   final ScrollController _scrollController = ScrollController();
   List<dynamic> news = [];
   String date = '...';
@@ -103,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Column(
               children: [
-                const TopLabel(),
+                TopLabel(listViewScroll),
                 Expanded(
                   child: NotificationListener(
                     child: ListView.separated(
@@ -125,12 +128,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
                     ),
                     onNotification: (t){
-                      print(_scrollController.position.pixels);
-                      if (t is ScrollEndNotification) {
-                        if (kDebugMode) {
+                      setState(() {
+                        listViewScroll = _scrollController.position.pixels;
+                      });
 
-                        }
-                      }
                       return true;
                     },
                   ),
@@ -170,23 +171,33 @@ class _TopListViewState extends State<TopListView> {
 
 
 class TopLabel extends StatelessWidget {
-  const TopLabel({super.key});
-
+  const TopLabel(this.listViewScrolled, {super.key,} );
+  final double listViewScrolled;
+  final double initialFontSize = 80;
+  final double finalFontSize = 60;
+  final double endScroll = 100;
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(image: AssetImage('lib/images/header.png'), fit: BoxFit.cover),
       ),
-      child: SizedBox(
-        height: 200,
-        width: MediaQuery.sizeOf(context).width,
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Ors News', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 80, fontFamily: 'Anta', height: 0),)
-          ],
+      child: AnimatedSize(
+        duration: const Duration(milliseconds: 2000),
+        child: SizedBox(
+          height: listViewScrolled > 100 ? 100 : 200 - listViewScrolled,
+          width: MediaQuery.sizeOf(context).width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AnimatedDefaultTextStyle(
+                style: TextStyle(fontSize: listViewScrolled < endScroll ? initialFontSize - (listViewScrolled * (initialFontSize - finalFontSize) / endScroll) : finalFontSize),
+                duration: const Duration(milliseconds: 400),
+                child: const Text('Ors News', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0),)
+              )
+            ],
+          ),
         ),
       ),
     );
