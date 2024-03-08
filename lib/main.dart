@@ -182,21 +182,23 @@ class TopLabel extends StatelessWidget {
       decoration: const BoxDecoration(
         image: DecorationImage(image: AssetImage('lib/images/header.png'), fit: BoxFit.cover),
       ),
-      child: AnimatedSize(
-        duration: const Duration(milliseconds: 2000),
-        child: SizedBox(
-          height: listViewScrolled > 100 ? 100 : 200 - listViewScrolled,
-          width: MediaQuery.sizeOf(context).width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AnimatedDefaultTextStyle(
-                style: TextStyle(fontSize: listViewScrolled < endScroll ? initialFontSize - (listViewScrolled * (initialFontSize - finalFontSize) / endScroll) : finalFontSize),
-                duration: const Duration(milliseconds: 400),
-                child: const Text('Ors News', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0),)
-              )
-            ],
+      child: SizedBox(
+        width: MediaQuery.sizeOf(context).width,
+        child: AnimatedSize(
+          duration: const Duration(milliseconds: 2000),
+          child: SizedBox(
+            height: listViewScrolled > 100 ? 100 : 200 - listViewScrolled,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AnimatedDefaultTextStyle(
+                  style: TextStyle(fontSize: listViewScrolled < endScroll ? initialFontSize - (listViewScrolled * (initialFontSize - finalFontSize) / endScroll) : finalFontSize),
+                  duration: const Duration(milliseconds: 400),
+                  child: const Text('Ors News', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0),)
+                )
+              ],
+            ),
           ),
         ),
       ),
