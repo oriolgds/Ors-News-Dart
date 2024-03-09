@@ -8,3 +8,5 @@ En "releases" podras encontrar el archivo correspondiente para cada sistema oper
 
 # Importante
 Este proyecto es de **codigo abierto** por lo tanto puedes contribuir y hasta compilar tu el codigo si lo prefieres.
+
+
