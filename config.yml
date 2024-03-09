@@ -78,7 +78,7 @@ sdk_path: /usr/lib/android-sdk
 # set the filename here.  You must still copy it into place in
 # repo/icons/ and/or archive/icons/.
 #
-# repo_icon: myicon.png
+repo_icon: repo/icons/icon.png
 # archive_icon: myicon.png
 
 # This allows a specific kind of insecure APK to be included in the
@@ -147,14 +147,14 @@ keystore: keystore.p12
 # different than the keypass below, it can be OK to store the password in this
 # file for real use. But in general, sensitive passwords should not be stored
 # in text files!
-keystorepass: iunkoUGpn9UqVyqgUL19EMsC9scGvKFZKo7dOflRv94=
+keystorepass: ObDxlaQrzcoiA5Clczj76x1g+0Cpex1QF038PaLWPjA=
 
 
 
 # The password for keys - the same is used for each auto-generated key as well
 # as for the repository key. You should not normally store this password in a
 # file since it is a sensitive password.
-keypass: iunkoUGpn9UqVyqgUL19EMsC9scGvKFZKo7dOflRv94=
+keypass: ObDxlaQrzcoiA5Clczj76x1g+0Cpex1QF038PaLWPjA=
 
 
 
@@ -206,7 +206,7 @@ keydname: CN=oriolgds-ASUS-TUF-Gaming-F15-FX506LH-FX506LH, OU=F-Droid
 # including the servergitmirrors strings in a comma-separated list.
 # Servers listed here will also be automatically inserted in the mirrors list.
 #
-# servergitmirrors: https://github.com/user/repo
+servergitmirrors: https://github.com/oriolgds/ONews-Dart
 # servergitmirrors:
 #   - https://github.com/user/repo
 #   - https://gitlab.com/user/repo

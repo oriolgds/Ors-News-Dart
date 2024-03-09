@@ -1,0 +1,19 @@
+{
+  "/etc/issue.net": "Zorin OS 17.1",
+  "commandLine": [
+    "/usr/bin/fdroid publish"
+  ],
+  "fdroiddata": {
+    "commitId": "dc7be61d88ca69c9832c1a6b9d680d937be64d79",
+    "isDirty": true,
+    "modifiedFiles": [
+      "repo/index.jar",
+      "repo/index.xml"
+    ],
+    "untrackedFiles": [
+      "stats/publishsigkeys.jar"
+    ]
+  },
+  "startTimestamp": 1709986859000,
+  "subcommand": "publish"
+}
