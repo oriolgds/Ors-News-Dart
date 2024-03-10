@@ -1,0 +1,1 @@
+{"/etc/issue.net":"Zorin OS 17.1","commandLine":["/usr/bin/fdroid deploy"],"endTimestamp":1710010251575,"fdroiddata":{"commitId":"b1cfd55d409f85b129f93732c8b1f758fd4d9f88","isDirty":true,"modifiedFiles":[".idea/onews_dart.iml",".idea/vcs.xml","config.yml","git-mirror","repo/status/running.json"],"untrackedFiles":[]},"startTimestamp":1710006641000,"subcommand":"deploy"}

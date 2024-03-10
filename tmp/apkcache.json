@@ -1,0 +1,39 @@
+{
+  "METADATA_VERSION": 20001,
+  "allow_disabled_algorithms": false,
+  "app-release.apk": {
+    "hash": "f10827285f397a6344cdc7d54e649fd59f9d056b51890f1a224ce7f1eced0355",
+    "hashType": "sha256",
+    "uses-permission": [
+      [
+        "android.permission.INTERNET",
+        null
+      ],
+      [
+        "com.example.onews_dart.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        null
+      ]
+    ],
+    "uses-permission-sdk-23": [],
+    "features": [],
+    "icons_src": {},
+    "icons": {},
+    "antiFeatures": [],
+    "packageName": "com.example.onews_dart",
+    "versionCode": 1,
+    "name": "onews_dart",
+    "versionName": "1.4.2",
+    "minSdkVersion": 19,
+    "targetSdkVersion": 33,
+    "nativecode": [
+      "arm64-v8a",
+      "armeabi-v7a",
+      "x86_64"
+    ],
+    "sig": "2ff133f85c8dc49674e68fcbd6d4c240",
+    "signer": "55254d80c89fc3c5a197927c01e5911e52d5e6d2b7692bff852c632c193a156f",
+    "size": 23680743,
+    "apkName": "app-release.apk",
+    "added": 1710006305.950097
+  }
+}

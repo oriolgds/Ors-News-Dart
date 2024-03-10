@@ -1,31 +1,25 @@
 {
   "/etc/issue.net": "Zorin OS 17.1",
   "commandLine": [
-    "/usr/bin/fdroid update",
-    "--create-metadata"
+    "/usr/bin/fdroid update"
   ],
   "fdroiddata": {
-    "commitId": "c44b01520a3242f017d3e38150aa7a83953ebb8e",
+    "commitId": "b1cfd55d409f85b129f93732c8b1f758fd4d9f88",
     "isDirty": true,
     "modifiedFiles": [
       ".idea/onews_dart.iml",
       ".idea/vcs.xml",
-      "lib/main.dart"
-    ],
-    "untrackedFiles": [
       "config.yml",
-      "keystore.p12",
-      "repo/categories.txt",
-      "repo/icons/icon.png",
+      "git-mirror",
       "repo/index-v1.jar",
       "repo/index-v1.json",
-      "repo/index.css",
-      "repo/index.html",
       "repo/index.jar",
-      "repo/index.png",
-      "repo/index.xml"
-    ]
+      "repo/index.xml",
+      "repo/status/deploy.json",
+      "repo/status/running.json"
+    ],
+    "untrackedFiles": []
   },
-  "startTimestamp": 1710003477000,
+  "startTimestamp": 1710006922000,
   "subcommand": "update"
 }

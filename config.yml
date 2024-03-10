@@ -50,14 +50,14 @@ sdk_path: /usr/lib/android-sdk
 # The same policy is applied to the archive repo, if there is one.
 # repo_maxage: 0
 
-repo_url: https://gitlab.com/oriolgds/ONews-Dart
-repo_name: Ors News
-repo_description: >-
-  This is a repository of apps to be used with F-Droid. Applications
-  in this repository are either official binaries built by the
-  original application developers, or are binaries built from source
-  by the admin of f-droid.org using the tools on
-  https://gitlab.com/fdroid.
+# repo_url: https://MyFirstFDroidRepo.org/fdroid/repo
+# repo_name: My First F-Droid Repo Demo
+# repo_description: >-
+#   This is a repository of apps to be used with F-Droid. Applications
+#   in this repository are either official binaries built by the
+#   original application developers, or are binaries built from source
+#   by the admin of f-droid.org using the tools on
+#   https://gitlab.com/fdroid.
 
 # As above, but for the archive repo.
 #
@@ -147,14 +147,14 @@ keystore: keystore.p12
 # different than the keypass below, it can be OK to store the password in this
 # file for real use. But in general, sensitive passwords should not be stored
 # in text files!
-keystorepass: FXb1Fvxd4s4osqYCL0uR8Vmn3wrptyPw3Mqwh1Yi+CQ=
+keystorepass: 6SBNCN9V07CzvpWxX3W2byhyhmOODR9xJx4O9M6fVBI=
 
 
 
 # The password for keys - the same is used for each auto-generated key as well
 # as for the repository key. You should not normally store this password in a
 # file since it is a sensitive password.
-keypass: FXb1Fvxd4s4osqYCL0uR8Vmn3wrptyPw3Mqwh1Yi+CQ=
+keypass: 6SBNCN9V07CzvpWxX3W2byhyhmOODR9xJx4O9M6fVBI=
 
 
 
@@ -206,7 +206,7 @@ keydname: CN=oriolgds-ASUS-TUF-Gaming-F15-FX506LH-FX506LH, OU=F-Droid
 # including the servergitmirrors strings in a comma-separated list.
 # Servers listed here will also be automatically inserted in the mirrors list.
 #
-servergitmirrors: https://github.com/oriolgds/ONews-Dart
+servergitmirrors: https://gitlab.com/oriolgds/ONews-Dart
 # servergitmirrors:
 #   - https://github.com/user/repo
 #   - https://gitlab.com/user/repo
