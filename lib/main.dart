@@ -262,12 +262,12 @@ class _NewCardState extends State<NewCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 200,
+                    Container(
+                      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 16, maxHeight: 200),
                       child: ClipRRect(
                         borderRadius: const BorderRadius.all(Radius.circular(12)),
                         child: Image.network(
-                          widget.image,
+                          'https://upload.wikimedia.org/wikipedia/commons/e/ea/Sydney_Harbour_Bridge_night.jpg?download',
                           fit: BoxFit.cover,
                         ),
                       ),
