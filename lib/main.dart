@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 
 // Other pages
@@ -264,11 +265,21 @@ class _NewCardState extends State<NewCard> {
                   children: [
                     Container(
                       constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 16, maxHeight: 200),
+                      height: 200,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.all(Radius.circular(12)),
-                        child: Image.network(
-                          'https://upload.wikimedia.org/wikipedia/commons/e/ea/Sydney_Harbour_Bridge_night.jpg?download',
+                        child: CachedNetworkImage(
                           fit: BoxFit.cover,
+                          imageUrl: widget.image,
+                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                              Container(
+                                alignment: Alignment.center,
+                                height: 200,
+                                width: 200,
+                                padding: const EdgeInsets.all(8.0),
+                                child: CircularProgressIndicator(value: downloadProgress.progress, color: Colors.blueAccent,),
+                              ),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
                         ),
                       ),
                     ),
