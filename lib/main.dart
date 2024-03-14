@@ -104,6 +104,34 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       theme: ThemeData(),
       home: Scaffold(
+        drawer: Drawer(
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text('Drawer Header'),
+              ),
+              ListTile(
+                title: const Text('Item 1'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: const Text('Item 2'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+            ],
+          ),
+        ),
         body: Stack(
           children: [
             Column(
@@ -180,28 +208,32 @@ class TopLabel extends StatelessWidget {
   final double endScroll = 100;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(image: AssetImage('lib/images/header.png'), fit: BoxFit.cover),
-      ),
-      child: AnimatedSize(
-        duration: const Duration(milliseconds: 2000),
-        child: SizedBox(
-          width: MediaQuery.sizeOf(context).width,
-          height: listViewScrolled > 100 ? 100 : 200 - listViewScrolled,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AnimatedDefaultTextStyle(
-                style: TextStyle(fontSize: listViewScrolled < endScroll ? initialFontSize - (listViewScrolled * (initialFontSize - finalFontSize) / endScroll) : finalFontSize),
-                duration: const Duration(milliseconds: 400),
-                child: const Text('Ors News', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0),)
-              )
-            ],
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(image: AssetImage('lib/images/header.png'), fit: BoxFit.cover),
+          ),
+          child: AnimatedSize(
+            duration: const Duration(milliseconds: 1),
+            child: SizedBox(
+              width: MediaQuery.sizeOf(context).width,
+              height: listViewScrolled > 100 ? 100 : 200 - listViewScrolled,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AnimatedDefaultTextStyle(
+                    style: TextStyle(fontSize: listViewScrolled < endScroll ? initialFontSize - (listViewScrolled * (initialFontSize - finalFontSize) / endScroll) : finalFontSize),
+                    duration: const Duration(milliseconds: 1),
+                    child: const Text('Ors News', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0),)
+                  )
+                ],
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
