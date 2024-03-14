@@ -40,6 +40,20 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+class MyDrawer extends StatelessWidget {
+  const MyDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: const <Widget>[],
+      ),
+    );
+  }
+}
 
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -104,34 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       theme: ThemeData(),
       home: Scaffold(
-        drawer: Drawer(
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Text('Drawer Header'),
-              ),
-              ListTile(
-                title: const Text('Item 1'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-              ListTile(
-                title: const Text('Item 2'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: const MyDrawer(),
         body: Stack(
           children: [
             Column(
@@ -232,6 +219,21 @@ class TopLabel extends StatelessWidget {
               ),
             ),
           ),
+        ),
+        Positioned(
+          top: 20,
+          left: 20,
+          child: AnimatedOpacity(
+            opacity: listViewScrolled > 100 ? 1 : 0,
+            duration: Duration(milliseconds: listViewScrolled > 100 ? 500 : 200),
+            child: const DrawerButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStatePropertyAll(Colors.black),
+                iconSize: MaterialStatePropertyAll(50.0),
+                iconColor: MaterialStatePropertyAll(Colors.white)
+              ),
+            ),
+          )
         ),
       ],
     );
