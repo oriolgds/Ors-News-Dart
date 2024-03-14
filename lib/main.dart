@@ -40,6 +40,20 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+class MyDrawer extends StatelessWidget {
+  const MyDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: const <Widget>[],
+      ),
+    );
+  }
+}
 
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -104,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       theme: ThemeData(),
       home: Scaffold(
+        drawer: const MyDrawer(),
         body: Stack(
           children: [
             Column(
@@ -180,28 +195,47 @@ class TopLabel extends StatelessWidget {
   final double endScroll = 100;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(image: AssetImage('lib/images/header.png'), fit: BoxFit.cover),
-      ),
-      child: AnimatedSize(
-        duration: const Duration(milliseconds: 2000),
-        child: SizedBox(
-          width: MediaQuery.sizeOf(context).width,
-          height: listViewScrolled > 100 ? 100 : 200 - listViewScrolled,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AnimatedDefaultTextStyle(
-                style: TextStyle(fontSize: listViewScrolled < endScroll ? initialFontSize - (listViewScrolled * (initialFontSize - finalFontSize) / endScroll) : finalFontSize),
-                duration: const Duration(milliseconds: 400),
-                child: const Text('Ors News', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0),)
-              )
-            ],
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(image: AssetImage('lib/images/header.png'), fit: BoxFit.cover),
+          ),
+          child: AnimatedSize(
+            duration: const Duration(milliseconds: 1),
+            child: SizedBox(
+              width: MediaQuery.sizeOf(context).width,
+              height: listViewScrolled > 100 ? 100 : 200 - listViewScrolled,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AnimatedDefaultTextStyle(
+                    style: TextStyle(fontSize: listViewScrolled < endScroll ? initialFontSize - (listViewScrolled * (initialFontSize - finalFontSize) / endScroll) : finalFontSize),
+                    duration: const Duration(milliseconds: 1),
+                    child: const Text('Ors News', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0),)
+                  )
+                ],
+              ),
+            ),
           ),
         ),
-      ),
+        Positioned(
+          top: 20,
+          left: 20,
+          child: AnimatedOpacity(
+            opacity: listViewScrolled > 100 ? 1 : 0,
+            duration: Duration(milliseconds: listViewScrolled > 100 ? 500 : 200),
+            child: const DrawerButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStatePropertyAll(Colors.black),
+                iconSize: MaterialStatePropertyAll(50.0),
+                iconColor: MaterialStatePropertyAll(Colors.white)
+              ),
+            ),
+          )
+        ),
+      ],
     );
   }
 }
