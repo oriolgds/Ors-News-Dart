@@ -63,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       date = apiDate;
     });
+    prefs.setString('newsDate', apiDate);
   }
   Future<void> fetchApiData() async {
     // Get cached news
@@ -93,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   void initState() {
+    fetchDateData();
     showHelp();
     fetchApiData();
     super.initState();
