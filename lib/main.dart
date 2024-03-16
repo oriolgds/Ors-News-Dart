@@ -12,6 +12,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'help.dart';
 
 
+import 'my_drawer.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -40,20 +42,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: const <Widget>[],
-      ),
-    );
-  }
-}
 
 
 class _MyHomePageState extends State<MyHomePage> {
