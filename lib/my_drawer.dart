@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
 
@@ -76,30 +76,33 @@ class MyDrawer extends StatelessWidget {
 
               ],
             ),
-            Divider(),
-            Column(
+            const Divider(),
+            const Column(
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Text('Este proyecto es de codigo abierto y sin animo de lucro.', style: TextStyle(fontSize: 16.0, color: Colors.black),),
+                  child: Text('Este proyecto es de código abierto y sin animo de lucro.', style: TextStyle(fontSize: 16.0, color: Colors.black),),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 7,
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15),
                   child: Text('Puedes ver el código, crear tu propia app a partir de esta, y hacer donaciones para mantener el servidor.', style: TextStyle(fontSize: 16.0, color: Colors.black),),
                 )
               ],
             ),
-            Divider(),
-            Spacer(),
+            const Divider(),
+            const Spacer(),
             IconButton.filledTonal(
-              onPressed: () {  },
-              icon: Icon(Icons.code, size: 50,),
+              tooltip: 'Ver el código',
+              onPressed: () async {
+                launchUrl(Uri.parse('https://github.com/oriolgds/Ors-News-Dart'), mode: LaunchMode.externalApplication);
+              },
+              icon: const Icon(Icons.code, size: 50,),
 
             ),
-            SizedBox(
+            const SizedBox(
               height: 9,
             )
           ],
