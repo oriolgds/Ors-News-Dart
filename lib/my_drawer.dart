@@ -94,13 +94,15 @@ class MyDrawer extends StatelessWidget {
             ),
             const Divider(),
             const Spacer(),
-            IconButton.filledTonal(
-              tooltip: 'Ver el código',
-              onPressed: () async {
-                launchUrl(Uri.parse('https://github.com/oriolgds/Ors-News-Dart'), mode: LaunchMode.externalApplication);
-              },
-              icon: const Icon(Icons.code, size: 50,),
-
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Spacer(),
+                BottomIconButton(url: 'https://github.com/oriolgds/Ors-News-Dart', iconData: Icons.code_rounded, tooltip: 'Ver el código'),
+                Spacer(),
+                BottomIconButton(url: 'https://ors.22web.org/', iconData: Icons.person, tooltip: 'Sobre mi'),
+                Spacer()
+              ],
             ),
             const SizedBox(
               height: 9,
@@ -111,3 +113,25 @@ class MyDrawer extends StatelessWidget {
     );
   }
 }
+class BottomIconButton extends StatelessWidget {
+  const BottomIconButton({super.key, required this.url, required this.iconData, required this.tooltip});
+  final String url;
+  final IconData iconData;
+  final String tooltip;
+  @override
+  Widget build(BuildContext context) {
+    return IconButton.filledTonal(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.orange.shade100),
+      ),
+      enableFeedback: true,
+      tooltip: tooltip,
+      onPressed: () async {
+        launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+      },
+      icon: Icon(iconData, size: 50,),
+
+    );
+  }
+}
+
