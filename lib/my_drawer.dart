@@ -121,7 +121,7 @@ class BottomIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton.filledTonal(
-      padding: EdgeInsets.all(17.0),
+      padding: const EdgeInsets.all(17.0),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(Colors.orange.shade100),
       ),
