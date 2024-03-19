@@ -6,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:intl/intl.dart';
 // Other pages
 import 'help.dart';
 
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ONews',
+      title: 'Ors News',
       theme: ThemeData(
         useMaterial3: true,
       ),
@@ -45,15 +45,16 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
+  final RefreshController _refreshController =  RefreshController(initialRefresh: true);
   double listViewScroll = 0;
   final ScrollController _scrollController = ScrollController();
   List<dynamic> news = [];
   String date = '...';
-  bool viewingCachedNews = true;
+  String statusOfFetch = 'Viendo noticias cacheadas';
 
   // Help variables
   Widget helpWidget = const SizedBox.shrink();
-  Future<void> fetchDateData() async {
+  Future<void> fetchDateData({bool withoutFetch = false}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? cachedDate = prefs.getString('newsDate');
     if(cachedDate!= null){
@@ -61,13 +62,16 @@ class _MyHomePageState extends State<MyHomePage> {
         date = cachedDate;
       });
     }
-    String apiDate = await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/date.txt'));
+    if(withoutFetch) return;
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy HH:mm:ss').format(now);
     setState(() {
-      date = apiDate;
+      date = formattedDate;
     });
-    prefs.setString('newsDate', apiDate);
+    prefs.setString('newsDate', formattedDate);
   }
   Future<void> fetchApiData() async {
+    bool error = false;
     // Get cached news
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? cachedNews = prefs.getString('newsJSON');
@@ -76,13 +80,21 @@ class _MyHomePageState extends State<MyHomePage> {
         news = jsonDecode(cachedNews)['news'];
       });
     }
-    final content = (await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/')));
+    final content = (await http.read(Uri.parse('http://oriolsnews.000webhostapp.com/')).onError((e, stackTrace){
+      error = true;
+      setState(() {
+        statusOfFetch = 'Error al cargar las noticias, comprueba tu conexión a internet';
+      });
+
+      return '{}';
+    }));
+    if(error) return;
     final json = jsonDecode(content);
     setState(() {
       news = json['news'];
-      viewingCachedNews = false;
+      statusOfFetch = 'Viendo noticias de la red';
     });
-    prefs.setString('newsJSON', jsonEncode(json));
+    prefs.setString('newsJSON', content);
     fetchDateData();
   }
   Future<void> showHelp() async {
@@ -96,10 +108,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   void initState() {
-    fetchDateData();
     showHelp();
-    fetchApiData();
+    fetchDateData(withoutFetch: true);
+
     super.initState();
+  }
+  void _onRefresh() async{
+    await fetchApiData();
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async{
+    // monitor network fetch
+    await fetchApiData();
+    _refreshController.loadComplete();
   }
   @override
   Widget build(BuildContext context) {
@@ -114,23 +137,30 @@ class _MyHomePageState extends State<MyHomePage> {
                 TopLabel(listViewScroll),
                 Expanded(
                   child: NotificationListener(
-                    child: ListView.separated(
-                      controller: _scrollController,
-                      cacheExtent: 200,
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: news.length + 1,
-                      itemBuilder: (context, index){
-                        if (index == 0) {
-                          return TopListView(date: date, viewingChachedNews: viewingCachedNews,);
-                        }
-                        final inew = news[index - 1];
-                        return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'], url: inew['Url'],);
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider(height: 5,);
-                      },
-
+                    child: SmartRefresher(
+                      header: const MaterialClassicHeader(),
+                      enablePullDown: true,
+                      controller: _refreshController,
+                      onRefresh: _onRefresh,
+                      onLoading: _onLoading,
+                      child: ListView.separated(
+                        controller: _scrollController,
+                        cacheExtent: 200,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: news.length + 1,
+                        itemBuilder: (context, index){
+                          if (index == 0) {
+                            return TopListView(date: date, viewingChachedNews: statusOfFetch,);
+                          }
+                          final inew = news[index - 1];
+                          return NewCard(title: inew['Title'], image: inew['Image'], description: inew['Summary'], source: inew['Source'], url: inew['Url'],);
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const Divider(height: 5,);
+                        },
+                      
+                      ),
                     ),
                     onNotification: (t){
                       setState(() {
@@ -153,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
 class TopListView extends StatefulWidget {
   const TopListView({super.key, required this.date, required this.viewingChachedNews});
   final String date;
-  final bool viewingChachedNews;
+  final String viewingChachedNews;
   @override
   State<TopListView> createState() => _TopListViewState();
 }
@@ -167,7 +197,7 @@ class _TopListViewState extends State<TopListView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text((widget.viewingChachedNews)?'Viendo noticias cacheadas':'Viendo noticias de la red'),
+        Text(widget.viewingChachedNews),
         Text('Noticias actualizadas el: ${widget.date}'),
       ],
     );
@@ -201,7 +231,7 @@ class TopLabel extends StatelessWidget {
                   AnimatedDefaultTextStyle(
                     style: TextStyle(fontSize: listViewScrolled < endScroll ? initialFontSize - (listViewScrolled * (initialFontSize - finalFontSize) / endScroll) : finalFontSize),
                     duration: const Duration(milliseconds: 1),
-                    child: Text(MediaQuery.of(context).size.width < 400 ? 'News' : 'Ors News ', textAlign: TextAlign.center, maxLines: 1, style: TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0,), overflow: TextOverflow.fade,)
+                    child: Text(MediaQuery.of(context).size.width < 400 ? 'News' : 'Ors News ', textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0,), overflow: TextOverflow.fade,)
                   )
                 ],
               ),
