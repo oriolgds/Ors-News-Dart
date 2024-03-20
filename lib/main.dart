@@ -226,12 +226,12 @@ class TopLabel extends StatelessWidget {
               height: listViewScrolled > 100 ? 100 : 200 - listViewScrolled,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: MediaQuery.of(context).size.width < 400 ? CrossAxisAlignment.end : CrossAxisAlignment.center,
+                crossAxisAlignment: listViewScrolled > endScroll ? CrossAxisAlignment.end : CrossAxisAlignment.center,
                 children: [
                   AnimatedDefaultTextStyle(
                     style: TextStyle(fontSize: listViewScrolled < endScroll ? initialFontSize - (listViewScrolled * (initialFontSize - finalFontSize) / endScroll) : finalFontSize),
                     duration: const Duration(milliseconds: 1),
-                    child: Text(MediaQuery.of(context).size.width < 400 ? 'News' : 'Ors News ', textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0,), overflow: TextOverflow.fade,)
+                    child: Text(MediaQuery.of(context).size.width < 300 ? 'News' : 'Ors News ', textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(color: Colors.white, fontFamily: 'Anta', height: 0,), overflow: TextOverflow.fade,)
                   )
                 ],
               ),
