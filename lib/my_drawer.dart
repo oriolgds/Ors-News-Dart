@@ -1,8 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-class MyDrawer extends StatelessWidget {
+
+
+
+import 'upgrade.dart' as upgrade;
+
+class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
+
+  @override
+  State<MyDrawer> createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  String upgradeButtonText = 'Descargar última versión';
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +72,17 @@ class MyDrawer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      upgradeButtonText = 'Cargando...';
+                    });
+                    upgrade.upgrade();
+                    Timer(const Duration(seconds: 3), () {
+                      setState(() {
+                        upgradeButtonText = 'Descargar última versión';
+                      });
+                    });
+                  },
                   style: const ButtonStyle(
                     side: MaterialStatePropertyAll(BorderSide(
                       color: Color.fromRGBO(150, 20, 20, 0.7),
@@ -66,7 +90,7 @@ class MyDrawer extends StatelessWidget {
                       )
                     ),
                   ),
-                  child: const Text('Buscar actualizaciones', style: TextStyle(color: Colors.black87),),
+                  child: const Text('Descargar última versión', style: TextStyle(color: Colors.black87),),
                 ),
               ),
               const SizedBox(
