@@ -72,16 +72,20 @@ class _MyDrawerState extends State<MyDrawer> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: OutlinedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
-                      upgradeButtonText = 'Cargando...';
+                      upgradeButtonText = 'Buscando actualizaciones...';
                     });
-                    upgrade.upgrade();
-                    Timer(const Duration(seconds: 3), () {
+                    if(await upgrade.upgrade()){
                       setState(() {
-                        upgradeButtonText = 'Descargar última versión';
+                        upgradeButtonText = 'Comprueba las notificaciones';
                       });
-                    });
+                    }
+                    else {
+                      setState(() {
+                        upgradeButtonText = '¡Tienes la última versión!';
+                      });
+                    }
                   },
                   style: const ButtonStyle(
                     side: MaterialStatePropertyAll(BorderSide(
@@ -90,7 +94,7 @@ class _MyDrawerState extends State<MyDrawer> {
                       )
                     ),
                   ),
-                  child: const Text('Descargar última versión', style: TextStyle(color: Colors.black87),),
+                  child: Text(upgradeButtonText, style: const TextStyle(color: Colors.black87),),
                 ),
               ),
               const SizedBox(
