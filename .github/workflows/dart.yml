@@ -27,6 +27,15 @@ jobs:
       - name: Running pub get
         run: flutter pub get
         
+      - name: Build apk
+        run: flutter build apk -v
+
+      - name: Upload apk
+        uses: actions/upload-artifact@v4        
+        with:
+          name: OrsNews.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+        
       - name: Build app bundle
         run: flutter build appbundle
 
@@ -89,4 +98,3 @@ jobs:
        with:
           name: Builds MacOS
           path: build/
-
