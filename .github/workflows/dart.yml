@@ -48,13 +48,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: OrsNews.aab
-          path: build/app/outputs/bundle/release/app-release.aab
-
-      
-      
-      
-     
-        
+          path: build/app/outputs/bundle/release/app-release.aab        
       
       - name: Build linux app
         run: flutter build linux --release     
@@ -82,24 +76,7 @@ jobs:
         with:
           name: Builds Windows
           path: build/
-      
-      - name: Build apk
-        run: flutter build apk
 
-      - name: Upload apk
-        uses: actions/upload-artifact@v4        
-        with:
-          name: OrsNewsW.apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-        
-      - name: Build app bundle
-        run: flutter build appbundle
-
-      - name: Upload aab
-        uses: actions/upload-artifact@v4
-        with:
-          name: OrsNewsW.aab
-          path: build/app/outputs/bundle/release/app-release.aab
   
   
   
