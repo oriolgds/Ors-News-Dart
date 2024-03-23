@@ -21,7 +21,7 @@ Future<bool> upgrade() async {
   for (final asset in jsonRelease){
     if(asset['name'] == 'app-release.apk'){
       debugPrint(asset['browser_download_url']);
-      if((await compareVersions(releaseVersion))){
+      if(!(await compareVersions(releaseVersion))){
         downloadTheFile(asset['browser_download_url']);
         return true;
       }
