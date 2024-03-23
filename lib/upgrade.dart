@@ -6,6 +6,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:open_file/open_file.dart';
 
 Future<bool> upgrade() async {
   // Get the release url
@@ -20,7 +21,7 @@ Future<bool> upgrade() async {
   for (final asset in jsonRelease){
     if(asset['name'] == 'app-release.apk'){
       debugPrint(asset['browser_download_url']);
-      if(!(await compareVersions(releaseVersion))){
+      if((await compareVersions(releaseVersion))){
         downloadTheFile(asset['browser_download_url']);
         return true;
       }
@@ -38,17 +39,40 @@ Future<bool> compareVersions(String cloudVersion) async {
 }
 
 Future<void> downloadTheFile(String url) async {
-  final Directory? tempDir = await getDownloadsDirectory();
+  final Directory tempDir = await getTemporaryDirectory();
 
-  debugPrint(tempDir?.path);
+  debugPrint(tempDir.path);
   final taskId = await FlutterDownloader.enqueue(
     url: url,
     headers: {}, // optional: header send with url (auth token etc)
-    savedDir: tempDir!.path,
+    savedDir: tempDir.path,
     showNotification: true, // show download progress in status bar (for Android)
     openFileFromNotification: true, // c
     saveInPublicStorage: true// lick on notification to open downloaded file (for Android)
   );
-  //final tasks = await FlutterDownloader.loadTasks();
+  final allDownloadTasks = await FlutterDownloader.loadTasks();
 
+  var allCompleted = true;
+  for (final downloadTask in allDownloadTasks!) {
+    if (downloadTask.status == DownloadTaskStatus.complete) {
+      debugPrint('this task is finished');
+    } else {
+      allCompleted = false;
+    }
+
+    if (allCompleted) {
+      debugPrint('all downloads are complete');
+
+      if (taskId != null) {
+        FlutterDownloader.open(taskId: taskId);
+      }
+    }
+
+    if (taskId != null) {
+      FlutterDownloader.open(taskId: taskId);
+      OpenFile.open("${tempDir.path}/apk-release.apk");
+    }
+
+    //final tasks = await FlutterDownloader.loadTasks();
+  }
 }
