@@ -23,6 +23,9 @@ jobs:
           channel: 'stable'
       - name: Displaying flutter version
         run: flutter --version
+
+      - name: Upgrade flutter
+        run: flutter upgrade
         
       - name: Running pub get
         run: flutter pub get
